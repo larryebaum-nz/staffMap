@@ -1,0 +1,17 @@
+{
+  "type":"FeatureCollection",
+  "features":[
+    {
+      "type":"Feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates": [-122.332071,47.606209]
+      },
+      "properties":{
+        "Name":"Staff#1",
+        "City":"Seattle",
+        "State":"WA"
+      }
+    }
+  ]
+}

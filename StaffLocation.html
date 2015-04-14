@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Layer: Styling</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <style>
+  html, body, #map-canvas {
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+  }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+  <script>
+  // For local testing, set geoData to geoData JSON
+  var geoData = {
+      "type":"FeatureCollection",
+      "features":[
+      {
+        "type":"Feature",
+        "geometry":{
+          "type":"Point",
+          "coordinates": [-122.332071,47.606209]
+        },
+        "properties":{
+          "Name":"Staff#1",
+          "City":"Seattle",
+          "State":"WA"
+        }
+      }
+    ]
+  };
+  var map;
+  var infowindow = new google.maps.InfoWindow();
+
+  function initialize() {
+    // Create a simple map.
+    var myLatLng = new google.maps.LatLng(47.606209,-122.332071);
+    var mapOptions = {
+      zoom: 4,
+      center: myLatLng
+    }
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    google.maps.event.addListener(map, 'click', function() {
+      infowindow.close();
+    });
+
+    // Set Variable for hosted geoJSON file location
+    // var geoData = ''
+    // Load from hosted file location
+    // map.data.loadGeoJson(geoData);
+    map.data.addGeoJson(geoData);
+
+    // Set event listener for each feature.
+    map.data.addListener('click', function(event) {
+      infowindow.setContent(event.feature.getProperty('Name')+"<br>"+event.feature.getProperty('City')+', '+event.feature.getProperty('State'));
+      infowindow.setPosition(event.latLng);
+      infowindow.setOptions({pixelOffset: new google.maps.Size(0,-34)});
+      infowindow.open(map);
+    });
+  }
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+  </script>
+</head>
+<body>
+  <div id="map-canvas"></div>
+</body>
+</html>
